@@ -1,7 +1,19 @@
-import React from "react";
+import React, {useState} from "react";
+import axios from "axios";
 import "./Weather.css";
+
+
 export default function Weather() {
-    return (
+    const [ready, setReady] = useState(false);
+    const [temperature, setTemperature] = useState(null);
+ function handleResponse(response) {
+    console.log(response.data);
+    setTemperature(response.data.main,temp);
+    setReady(true);
+}
+
+if (ready) {
+return (
        <div className="Weather">
         <form>
             <div className="row">
@@ -38,10 +50,16 @@ export default function Weather() {
             </ul>
         </div>
        </div>
-       
-       
-       
        </div> 
-    )
+    );
 
-}
+ }  else {
+ const apiKey= "3b25cc29b00af835bb4424cb9bd16b6c";
+ let city = "New York";
+    let apiUrl= 
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    axios.get(apiUrl).then(handleResponse);
+
+    return "Loading...";
+ }  
+} 
